@@ -16,7 +16,7 @@ else:
         generate_idea.render()
     elif selected_page == "投稿一覧":
         post_list_view.render()
-    elif selected_page == " DB初期化":
+    elif selected_page == "DB初期化":
         reset_db.render()  
 
     # --- 編集処理（セッションベース） ---
