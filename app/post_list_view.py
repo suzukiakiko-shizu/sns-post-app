@@ -2,6 +2,10 @@ import streamlit as st
 import sqlite3
 import io
 from PIL import Image
+import os
+
+os.makedirs("db", exist_ok=True)  # ←これを追加！
+conn = sqlite3.connect("db/posts.db", check_same_thread=False)
 
 # --- DB 接続 ---
 conn = sqlite3.connect("db/posts.db", check_same_thread=False)

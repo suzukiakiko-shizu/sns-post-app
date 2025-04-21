@@ -1,6 +1,10 @@
 import streamlit as st
 import sqlite3
 from datetime import datetime
+import os
+
+os.makedirs("db", exist_ok=True)  # ←これを追加！
+conn = sqlite3.connect("db/posts.db", check_same_thread=False)
 
 # --- DB 接続 ---
 conn = sqlite3.connect("db/posts.db", check_same_thread=False)

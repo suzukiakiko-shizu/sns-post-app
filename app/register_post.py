@@ -3,6 +3,9 @@ import sqlite3
 import os
 from datetime import datetime
 
+os.makedirs("db", exist_ok=True) 
+conn = sqlite3.connect("db/posts.db", check_same_thread=False)
+
 # --- DB 接続（フォルダがなければ作成） ---
 os.makedirs("data", exist_ok=True)
 conn = sqlite3.connect("db/posts.db", check_same_thread=False)
