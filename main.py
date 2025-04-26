@@ -1,5 +1,12 @@
 import streamlit as st
 from app import generate_idea, register_post, post_list_view, edit_post
+from utils.init_db import initialize_database  # ←★ここを追加！
+
+# --- 起動時にDB初期化チェック ---
+initialize_database()  # ←★ここも追加！
+
+# --- URLパラメータからページ名を取得 ---
+page = st.query_params.get("page", None)
 
 
 # --- URLパラメータからページ名を取得（例：?page=投稿登録） ---
