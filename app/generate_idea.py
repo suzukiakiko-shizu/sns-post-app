@@ -16,7 +16,7 @@ def render():
 
     # --- 入力フォーム ---
     with st.form("input_form"):
-        topic = st.text_input("投稿ネタ（例：メロンクリームソーダ、決起大会レポート）", "")
+        topic = st.text_input("投稿ネタ（例：限定ドリンク、決起大会レポート）", "")
         col1, col2, col3 = st.columns(3)
         target = col1.selectbox("想定ターゲット", TARGET_CATEGORIES)
         purpose = col2.selectbox("投稿の目的", PURPOSE_CATEGORIES)
