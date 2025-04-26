@@ -10,7 +10,7 @@ if page == "投稿登録":
 
 else:
     st.sidebar.title("📂 メニュー")
-    selected_page = st.sidebar.radio("ページを選ぶ", ["投稿ネタ生成", "投稿一覧"])
+    selected_page = st.sidebar.radio("ページを選ぶ", ["投稿ネタ生成", "投稿一覧", "DB初期化"])
 
     if selected_page == "投稿ネタ生成":
         generate_idea.render()
