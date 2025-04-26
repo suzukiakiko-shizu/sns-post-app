@@ -1,5 +1,6 @@
 import streamlit as st
-from app import generate_idea, register_post, post_list_view, edit_post, reset_db
+from app import generate_idea, register_post, post_list_view, edit_post
+
 
 # --- URLパラメータからページ名を取得（例：?page=投稿登録） ---
 page = st.query_params.get("page", None)
