@@ -50,7 +50,7 @@ def render():
         # タイトル見出しを強調表示
         st.markdown(f"### 📝 {title or '（タイトルなし）'} {status_badge}", unsafe_allow_html=True)
 
-        with st.expander(f"{created_at.split(' ')[0]}（更新日）", expanded=False):
+        with st.expander(f"詳細を見る {status_badge}", expanded=False):
             st.markdown(f"**投稿予定日**：{post_date}")
             st.markdown(f"**担当者**：{author_name or '未入力'}")
             st.markdown(f"**本文**：\n{body}")
