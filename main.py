@@ -1,32 +1,66 @@
 import streamlit as st
-from app import generate_idea, register_post, post_list_view, edit_post
-from utils.init_db import initialize_database  # ←★ここを追加！
 
-# --- 起動時にDB初期化チェック ---
-initialize_database()  # ←★ここも追加！
+st.set_page_config(page_title="ChatGPT用プロンプト作成ツール", layout="wide")
+st.title("💬 ChatGPT用プロンプト生成アプリ（自動車ディーラー向け）")
 
-# --- URLパラメータからページ名を取得 ---
-page = st.query_params.get("page", None)
+# --- 投稿タイプ選択 ---
+category = st.radio("投稿タイプを選択してください", ["自由記述", "とくとくWEEK", "限定ドリンク"])
 
+# --- 入力欄 ---
+st.subheader("📝 投稿ネタ入力")
+memo = st.text_area("投稿ネタ（メモ書き）", height=150)
 
-# --- URLパラメータからページ名を取得（例：?page=投稿登録） ---
-page = st.query_params.get("page", None)
+purpose = st.radio("投稿の目的", ["来店促進", "フォロワー獲得", "購買意欲UP", "保存・共有を狙う", "信頼感UP", "特になし"])
 
-# --- 投稿登録ページはサイドバーなしで表示 ---
-if page == "投稿登録":
-    register_post.render()
+target = st.text_input("想定ターゲット（任意）", placeholder="例：30代のママ、アウトドア好きファミリー")
 
-else:
-    st.sidebar.title("📂 メニュー")
-    selected_page = st.sidebar.radio("ページを選ぶ", ["投稿ネタ生成", "投稿登録", "投稿一覧"])
+tone = st.text_input("投稿トーン（任意）", placeholder="例：やさしく、親しみやすく、絵文字多め")
 
-    if selected_page == "投稿ネタ生成":
-        generate_idea.render()
-    elif selected_page == "投稿登録":
-        register_post.render()
-    elif selected_page == "投稿一覧":
-        post_list_view.render()
+scheduled_date = st.text_input("投稿予定日（任意、例：2025年6月1日）")
 
-    # 編集ページ（セッションベース）
-    if "edit_post_id" in st.session_state:
-        edit_post.render()
+# --- プロンプト生成 ---
+if st.button("📢 ChatGPT用プロンプトを作成"):
+    prompt = f"""
+あなたは地域ディーラー（沼津三菱）のSNS担当者です。
+以下の投稿ネタをもとに、InstagramやFacebook向けのSNS原稿を300文字以内で作成してください。
+
+【投稿タイプ】
+{category}
+
+【投稿ネタ】
+{memo}
+
+【目的】
+{purpose}
+
+【ターゲット】
+{'20〜50代の男性フォロワー' + ('（補足：' + target + '）' if target else '')}
+
+【トーン】
+{tone if tone else '親しみやすく、カジュアル、絵文字あり'}
+
+【投稿予定日】
+{scheduled_date if scheduled_date else '未指定'}（→ 適切な時制で記述）
+
+【構成】
+1. あいさつ（こんにちは！沼津三菱です😊）
+2. 共感・問いかけなど導入文
+3. 投稿の主旨や魅力（箇条書き可）
+4. スタッフコメントや裏話（あれば）
+5. 締めの一言・CTA
+6. ハッシュタグ（10個以内）
+
+【さらにお願い】
+- フィード投稿の場合 → 最大5枚のスライド構成案も提案してください（各スライドの内容と見出し）。
+- リール動画の場合 → 約30秒以内の構成案（タイトル・展開・演出アイデア）。
+- ストーリー投稿の場合 → 複数ストーリーで分けて見せる演出や流れを提案してください。
+- 上記すべての形式で出力してください（ユーザーが選択できるようにするため）。
+
+【トーンと文体】
+- 語りかけるような口調、親しみやすい文体
+- 絵文字、記号を適度に使用し、視認性を高めてください
+- あいさつと締めの言葉は必須
+"""
+    st.text_area("📋 ChatGPTに貼り付けるプロンプトはこちら", value=prompt.strip(), height=700)
+    st.success("投稿形式別の構成案を含むプロンプトが生成されました！ChatGPTにコピペしてご活用ください。")
+
